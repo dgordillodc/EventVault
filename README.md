@@ -131,7 +131,8 @@ git clone https://github.com/dgordillodc/EventVault.git
 cd EventVault
 
 # Install dependencies
-forge install
+forge install foundry-rs/forge-std
+forge install OpenZeppelin/openzeppelin-contracts
 
 # Run all tests
 forge test -vvv
