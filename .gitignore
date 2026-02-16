@@ -1,0 +1,16 @@
+# Compiler output
+cache/
+out/
+
+# Dependencies
+lib/
+
+# Node
+node_modules/
+
+# Environment
+.env
+
+# OS
+.DS_Store
+Thumbs.db

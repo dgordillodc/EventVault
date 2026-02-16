@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Foundry Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+
+      - name: Install dependencies
+        run: |
+          git init
+          forge install foundry-rs/forge-std
+          forge install OpenZeppelin/openzeppelin-contracts
+
+      - name: Build
+        run: forge build
+
+      - name: Run tests
+        run: forge test -vvv
+
+      - name: Run coverage
+        run: forge coverage
