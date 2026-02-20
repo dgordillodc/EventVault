@@ -293,6 +293,7 @@ contract EventVault is Ownable {
         // Activate account if first deposit
         if (account.status == AccountStatus.Inactive) {
             account.status = AccountStatus.Active;
+            account.lastInterestCalc = block.timestamp;
             emit AccountStatusChanged(msg.sender, AccountStatus.Active);
         }
         
@@ -548,6 +549,7 @@ contract EventVault is Ownable {
         // Activate recipient if needed
         if (toAccount.status == AccountStatus.Inactive) {
             toAccount.status = AccountStatus.Active;
+            toAccount.lastInterestCalc = block.timestamp;
         }
         
         // Record transactions
