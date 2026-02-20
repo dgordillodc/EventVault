@@ -1147,19 +1147,18 @@ contract EventVaultTest is Test {
         assertEq(pending, 0);
     }
 
-    /// @notice getPendingInterest returns pendingInterest when lastInterestCalc is 0
-    function test_View_PendingInterest_ZeroLastCalc() public {
-        // After first deposit, lastInterestCalc may still be 0 (only first deposit, no second operation)
+    /// @notice getPendingInterest calculates interest from first deposit
+    function test_View_PendingInterest_FirstDeposit() public {
+        // After first deposit, lastInterestCalc is initialized on account activation
         vm.prank(alice);
         vault.depositETH{value: 1 ether}(EventVault.LockPeriod.Flexible);
 
-        // Warp forward
+        // Warp forward 1 year
         vm.warp(block.timestamp + 365 days);
 
-        // lastInterestCalc == 0 because only one deposit (never triggered _accrueInterest with balance > 0)
-        // getPendingInterest should return account.pendingInterest (which is 0)
+        // 1 ETH * 5% APY * 1 year * 1x Flexible multiplier = 0.05 ETH
         uint256 pending = vault.getPendingInterest(alice);
-        assertEq(pending, 0);
+        assertEq(pending, 50000000000000000);
     }
 
     /// @notice MockEventToken revert is caught by _getUserDiscount (try/catch returns 0)
